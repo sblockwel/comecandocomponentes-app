@@ -1,26 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <h1>Central de Pedidos</h1>
+  <form-pedido :pedidos="pedido"></form-pedido>
+  <br>
+  <tabela-pedido :pedidos="pedido"></tabela-pedido>
+
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import FormPedido from './components/FormPedido.vue'
+import TabelaPedido from './components/TabelaPedido.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FormPedido,
+    TabelaPedido,
+  },
+  data() {
+
   }
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
