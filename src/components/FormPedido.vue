@@ -20,10 +20,24 @@
             -->
         </form>    
     </div>
+
+    <div>
+
+    <br>
+    <tabela-pedido :pedidos="pedido"></tabela-pedido>
+
+    </div>
 </template>
 
 <script>
+
+import TabelaPedido from './TabelaPedido.vue'
+
 export default {
+  name: 'FormPedido',
+  components: {
+    TabelaPedido,
+  },
   props: {
     pedidos: Array,
     qtdePedidos: Number,
