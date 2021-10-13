@@ -12,7 +12,7 @@
         <th @click="ordenar('quantidade')" class="ordenar">quantidade <font-awesome-icon :icon="getTipoOrdenacao('quantidade')" /> </th>
         <th @click="ordenar('valorUnidade')" class="ordenar">Valor unitário <font-awesome-icon :icon="getTipoOrdenacao('valorUnidade')" /></th>
         <th @click="ordenar('valorDesconto')" class="ordenar">Valor desconto <font-awesome-icon :icon="getTipoOrdenacao('valorDesconto')" /></th>
-        <th @click="ordenar('valorTotal')" class="ordenar">Total <font-awesome-icon :icon="getTipoOrdenacao('valorTotal')" /></th>
+        <th @click="ordenar('valorTotal')" class="ordenar">Valor total <font-awesome-icon :icon="getTipoOrdenacao('valorTotal')" /></th>
         <th>Opções</th>
 
         <tr v-for="(i, idx) in produtosFiltrados" :key="i.produto" :class="{ alteracao: alteracaoIdx == idx }" >
@@ -123,9 +123,14 @@ export default {
         
         return item
     },
-    calcularTotal () { 
+    calcularTotal() { 
+      let valor = 0;
+      //let array = this.itens.valorTotal;
+      //const reducer = (a, b) => previousValue + currentValue;
 
-      return this.itens.reduce((a, b) => ({ valorTotal: a.valorTotal += b.valorTotal })).valorTotal
+      valor = this.itens.reduce((a, b) => a.valorTotal + b.valorTotal ).valorTotal
+
+      return valor
     }
   }
 };
