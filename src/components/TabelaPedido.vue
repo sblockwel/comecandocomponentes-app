@@ -45,8 +45,8 @@ export default {
   data() {
     return {
         itens: [
-            { produto: "teste 1", quantidade: "5", valorUnidade: "3.50", valorDesconto: "0.50", valorTotal: "15.0" },
-            { produto: "produto 2", quantidade: "2", valorUnidade: "1.50", valorDesconto: "0.10", valorTotal: "2.80" }
+            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
+            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
         ],
         item: {
             produto: "",
@@ -124,13 +124,15 @@ export default {
         return item
     },
     calcularTotal() { 
-      let valor = 0;
+      //let valor = 0;
       //let array = this.itens.valorTotal;
       //const reducer = (a, b) => previousValue + currentValue;
 
-      valor = this.itens.reduce((a, b) => a.valorTotal + b.valorTotal ).valorTotal
+      /*valor = this.itens.reduce((a, b) => a.valorTotal + b.valorTotal ).valorTotal
 
-      return valor
+      return valor*/
+
+      return this.itens.reduce((a, b) => ({ valorTotal: a.valorTotal + b.valorTotal })).valorTotal
     }
   }
 };
