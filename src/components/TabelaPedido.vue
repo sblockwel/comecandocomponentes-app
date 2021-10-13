@@ -27,7 +27,12 @@
             </td>
         </tr>
     </table>
-  </div>
+
+    <div class="totais">
+      <p> Total pedido: R$ {{ calcularTotal }}</p>
+      <p> Quantidade item: {{  this.itens.length.toString() }}</p>
+    </div>
+  </div>  
 </template>
 
 <script>
@@ -56,6 +61,8 @@ export default {
             nome: null,
             tipo: 'asc'
         },
+        totalPedido: 0.00,
+        qtdeItem: 0, 
     }
   },
   methods: {
@@ -101,7 +108,13 @@ export default {
         this.itens = this.itens.sort((a, b) =>
             a[campo].localeCompare(b[campo]) * tipoOrdem
         )      
-    }   
+    },
+    /*calculaTotal() {
+      return this.itens.reduce((a, b) => ({ total: a.total + b.total })).total
+      /*return this.itens.map(prod => {
+                    this.totalPedido += prod.valorTotal;
+                })
+    }, */ 
   },
   computed: {
     produtosFiltrados() {
@@ -109,6 +122,10 @@ export default {
         item = this.itens.filter(p => p = p.produto.toLowerCase().indexOf(this.procurar.toLowerCase()) > -1 )
         
         return item
+    },
+    calcularTotal () { 
+
+      return this.itens.reduce((a, b) => ({ valorTotal: a.valorTotal += b.valorTotal })).valorTotal
     }
   }
 };

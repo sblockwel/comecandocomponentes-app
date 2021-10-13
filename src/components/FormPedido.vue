@@ -1,40 +1,39 @@
 <template>
-    <div>
-        <form id="formulario" >
-            <div class="campo">
-                <label for="numero"> Número: </label><br />
-                <input type="number" id="numero" autofocus required v-model="pedido.numero" />
-            </div>
-            <div class="campo"> 
-                <label for="data"> Data Emissão: </label>
-             <input type="datetime-local" id="data" required v-model="pedido.data" />
-            </div>
-            <div class="campo"> 
-                <label for="cliente"> Cliente: </label>
-                <input type="select" id="cliente" required v-model="pedido.cliente" />
-            </div>
-            <!-- 
-            <div id="botao" class="campo ">
-                <input type="submit" :value="acao" />
-            </div>
-            -->
-        </form>    
-    </div>
+  <div>
+    <form id="formulario">
+      <div class="campo">
+        <label for="numero"> Número: </label><br />
+        <input type="number" id="numero" autofocus required v-model="pedido.numero"/>
+      </div>
+      <div class="campo">
+        <label for="data"> Data Emissão: </label>
+        <input type="datetime-local" id="data" required v-model="pedido.data" />
+      </div>
+      <div class="campo">
+        <label for="cliente"> Cliente: </label>
+        <input type="select" id="cliente" required v-model="pedido.cliente" />
+      </div>      
+    </form>
+  </div>
 
-    <div>
-
-    <br>
+  <div>
+    <br />
     <tabela-pedido :pedidos="pedido"></tabela-pedido>
+  </div>
 
-    </div>
+  <div>
+    <button> Salvar</button>
+    <button> Adicionar Pedido</button>
+  </div>
+
+
 </template>
 
 <script>
-
-import TabelaPedido from './TabelaPedido.vue'
+import TabelaPedido from "./TabelaPedido.vue";
 
 export default {
-  name: 'FormPedido',
+  name: "FormPedido",
   components: {
     TabelaPedido,
   },
@@ -44,25 +43,22 @@ export default {
   },
   data() {
     return {
-        pedido: {
-            numero: '',
-            data: '',
-            cliente: '',
-        }
-    }
+      pedido: {
+        numero: "",
+        data: "",
+        cliente: "",
+      },
+    };
   },
   methods: {
-    adicionarPedido() {
-      
-    }
+    adicionarPedido() {},
   },
-}
-
+};
 </script>
 
 <style>
 #formulario {
-  width: 60%; 
+  width: 60%;
   margin-left: 20%;
   padding: 45px 15px;
   height: 100px;
