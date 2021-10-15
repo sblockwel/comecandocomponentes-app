@@ -18,7 +18,7 @@
 
   <div>
     <br />
-    <tabela-pedido :itensPedido="pedido.itens"></tabela-pedido>
+    <tabela-pedido :itensPedido="pedido.itens.valorUnidade"></tabela-pedido>
   </div>
 
   <div>

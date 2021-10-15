@@ -21,7 +21,7 @@
             <td id="quantidade" :contenteditable="getLinhaTabela(idx)">{{ i.quantidade }}</td>
             <td id="unidade" :contenteditable="getLinhaTabela(idx)">{{ i.valorUnidade }}</td>
             <td id="desconto" :contenteditable="getLinhaTabela(idx)">{{ i.valorDesconto }}</td>
-            <td id="total" > {{ calcularTotal(i) }}</td>
+            <td id="total"> {{ calcularTotal(i) }}</td>
             <td>
                 <button @click="remover(i)"> <font-awesome-icon icon="trash"/> </button>
                 <button @click="alterar(idx)"> <font-awesome-icon :icon="getAlteracaoIcon(idx)"/> </button>
@@ -41,15 +41,12 @@
 
 export default {
   name: "TabelaPedido",
-    props: {
+  props: {
     itensPedido: Array
   },
   data() {
     return {
-        itens: [
-//            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
-//            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
-        ],
+        itens: [],
         item: {
             produto: "",
             quantidade: "",
@@ -65,7 +62,6 @@ export default {
         },
         totalPedido: 0.00,
         qtdeItem: 0,
-        itemEdit: "", 
     }
   },
   methods: {
@@ -147,7 +143,7 @@ export default {
     },
     calcularTotalPedido() { 
       return this.itens.map(i => i.valorTotal).reduce((a,b) => a + b, 0)
-    }
+    },   
   }
 };
 </script>

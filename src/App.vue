@@ -16,8 +16,6 @@ export default {
   components: {
     FormPedido,
   },
-
-
 }
 </script>
 
