@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="botoes">
-        <button @click="adicionar()">Adicionar produto</button>
+        <button @click="adicionarProduto()">Adicionar produto</button>
+        
         <div class="filtro">
             <label>Filtro por produto</label><br/>
             <input type="text" v-model="procurar">
@@ -16,29 +17,31 @@
         <th>Opções</th>
 
         <tr v-for="(i, idx) in produtosFiltrados" :key="i.produto" :class="{ alteracao: alteracaoIdx == idx }" >
-            <td id="produto">{{ i.produto }}</td>
-            <td id="quantidade">{{ i.quantidade }}</td>
-            <td id="unidade">{{ i.valorUnidade }}</td>
-            <td id="desconto">{{ i.valorDesconto }}</td>
-            <td id="total">{{ i.valorTotal }}</td>
+            <td id="produto" class="produtoClass" :contenteditable="getLinhaTabela(idx)">{{ i.produto }}</td>
+            <td id="quantidade" :contenteditable="getLinhaTabela(idx)">{{ i.quantidade }}</td>
+            <td id="unidade" :contenteditable="getLinhaTabela(idx)">{{ i.valorUnidade }}</td>
+            <td id="desconto" :contenteditable="getLinhaTabela(idx)">{{ i.valorDesconto }}</td>
+            <td id="total" :contenteditable="getLinhaTabela(idx)">{{ i.valorTotal }}</td>
             <td>
                 <button @click="remover(i)"> <font-awesome-icon icon="trash"/> </button>
-                <button @click="alterar(idx)"> <font-awesome-icon icon="pencil-alt"/> </button>
+                <button @click="alterar(idx)"> <font-awesome-icon :icon="getAlteracaoIcon(idx)"/> </button>
             </td>
         </tr>
     </table>
 
     <div class="totais">
       <p> Total pedido: R$ {{ calcularTotal }}</p>
-      <p> Quantidade item: {{  this.itens.length.toString() }}</p>
+      <p> Quantidade item: {{ this.itens.length.toString() }}</p>
     </div>
   </div>  
 </template>
 
 <script>
+
+
 export default {
   name: "TabelaPedido",
-  props: {
+    props: {
     itensPedido: Array,
     qtdePedidos: Number,
   },
@@ -62,7 +65,8 @@ export default {
             tipo: 'asc'
         },
         totalPedido: 0.00,
-        qtdeItem: 0, 
+        qtdeItem: 0,
+        itemEdit: "", 
     }
   },
   methods: {
@@ -73,22 +77,24 @@ export default {
         );
       }
     },
-    alterar(idx) {
-      this.item = Object.assign({}, this.itens[idx]);
+    alterar(idx) {      
+      if(this.alteracaoIdx == idx){
+        this.reset()
+      }
+      else {
+        this.item = Object.assign({}, this.itens[idx]);
       this.alteracaoIdx = idx;
+      }
     },    
-    adicionar() {
-        const itemSalvar = Object.assign({}, this.item)
-
-        if (this.alteracaoIdx > -1) {
-            this.itens[this.alteracaoIdx] = itemSalvar
-        } else {
-            this.itens.push(itemSalvar)
-        }
-        this.reset()      
+    adicionarProduto() {
+        const itemSalvar = Object.assign({}, this.item)        
+        this.itens.push(itemSalvar)     
+        const indice = this.itens.length - 1;
+        this.alteracaoIdx = indice
     },
     reset() {
-        this.alteracaoIdx = -1
+      this.item = null
+      this.alteracaoIdx = -1
     }, 
     getTipoOrdenacao(campo){
       if (campo == this.ordemCampos.nome) {
@@ -108,13 +114,22 @@ export default {
         this.itens = this.itens.sort((a, b) =>
             a[campo].localeCompare(b[campo]) * tipoOrdem
         )      
+    }, 
+    getLinhaTabela(idx) {
+      /*let divs = document.getElementsByClassName("produtoClass")
+      
+      for (const div in divs) {
+        console.log(div)
+      }*/
+
+      return idx == this.alteracaoIdx
     },
-    /*calculaTotal() {
-      return this.itens.reduce((a, b) => ({ total: a.total + b.total })).total
-      /*return this.itens.map(prod => {
-                    this.totalPedido += prod.valorTotal;
-                })
-    }, */ 
+    getAlteracaoIcon(idx) {
+        return idx == this.alteracaoIdx ? "check" : "pencil-alt"
+    },
+    getTdID(idx){
+      return idx == this.alteracaoIdx ? "produtoEditavel" : "produto"
+    }
   },
   computed: {
     produtosFiltrados() {
@@ -124,14 +139,6 @@ export default {
         return item
     },
     calcularTotal() { 
-      //let valor = 0;
-      //let array = this.itens.valorTotal;
-      //const reducer = (a, b) => previousValue + currentValue;
-
-      /*valor = this.itens.reduce((a, b) => a.valorTotal + b.valorTotal ).valorTotal
-
-      return valor*/
-
       return this.itens.reduce((a, b) => ({ valorTotal: a.valorTotal + b.valorTotal })).valorTotal
     }
   }

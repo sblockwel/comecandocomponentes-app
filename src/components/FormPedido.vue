@@ -51,7 +51,9 @@ export default {
     };
   },
   methods: {
-    adicionarPedido() {},
+    adicionarPedido() {
+      
+    },
   },
 };
 </script>
