@@ -21,7 +21,7 @@
             <td id="quantidade" :contenteditable="getLinhaTabela(idx)">{{ i.quantidade }}</td>
             <td id="unidade" :contenteditable="getLinhaTabela(idx)">{{ i.valorUnidade }}</td>
             <td id="desconto" :contenteditable="getLinhaTabela(idx)">{{ i.valorDesconto }}</td>
-            <td id="total" :contenteditable="getLinhaTabela(idx)">{{ i.valorTotal }}</td>
+            <td id="total" > {{ calcularTotal(i) }}</td>
             <td>
                 <button @click="remover(i)"> <font-awesome-icon icon="trash"/> </button>
                 <button @click="alterar(idx)"> <font-awesome-icon :icon="getAlteracaoIcon(idx)"/> </button>
@@ -30,7 +30,7 @@
     </table>
 
     <div class="totais">
-      <p> Total pedido: R$ {{ calcularTotal }}</p>
+      <p> Total pedido: R$ {{ calcularTotalPedido }}</p>
       <p> Quantidade item: {{ this.itens.length.toString() }}</p>
     </div>
   </div>  
@@ -42,14 +42,13 @@
 export default {
   name: "TabelaPedido",
     props: {
-    itensPedido: Array,
-    qtdePedidos: Number,
+    itensPedido: Array
   },
   data() {
     return {
         itens: [
-            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
-            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
+//            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
+//            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
         ],
         item: {
             produto: "",
@@ -129,6 +128,14 @@ export default {
     },
     getTdID(idx){
       return idx == this.alteracaoIdx ? "produtoEditavel" : "produto"
+    },
+    calcularTotal(i) {
+      return i.valorTotal = (i.quantidade * i.valorUnidade) - i.valorDesconto
+    }
+  },
+  watch: {
+    itensPedido(val) {
+      this.itens = val
     }
   },
   computed: {
@@ -138,8 +145,8 @@ export default {
         
         return item
     },
-    calcularTotal() { 
-      return this.itens.reduce((a, b) => ({ valorTotal: a.valorTotal + b.valorTotal })).valorTotal
+    calcularTotalPedido() { 
+      return this.itens.map(i => i.valorTotal).reduce((a,b) => a + b, 0)
     }
   }
 };

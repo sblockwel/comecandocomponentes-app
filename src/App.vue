@@ -1,7 +1,7 @@
 <template>
 
   <h1>Central de Pedidos</h1>
-  <form-pedido :pedidos="pedido"></form-pedido>
+  <form-pedido></form-pedido>
   
 
 
@@ -16,9 +16,7 @@ export default {
   components: {
     FormPedido,
   },
-  data() {
 
-  }
 
 }
 </script>

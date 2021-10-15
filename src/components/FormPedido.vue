@@ -18,7 +18,7 @@
 
   <div>
     <br />
-    <tabela-pedido :pedidos="pedido"></tabela-pedido>
+    <tabela-pedido :itensPedido="pedido.itens"></tabela-pedido>
   </div>
 
   <div>
@@ -47,6 +47,10 @@ export default {
         numero: "",
         data: "",
         cliente: "",
+        itens: [
+            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
+            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
+        ],
       },
     };
   },
