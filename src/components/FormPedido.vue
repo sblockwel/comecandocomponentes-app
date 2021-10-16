@@ -18,7 +18,7 @@
 
   <div>
     <br />
-    <tabela-pedido :itensPedido="pedido.itens.valorUnidade"></tabela-pedido>
+    <tabela-pedido :itensPedido='pedido.itens'></tabela-pedido>
   </div>
 
   <div>
@@ -53,6 +53,9 @@ export default {
         ],
       },
     };
+  },
+  mounted() {
+    console.log('inicio')
   },
   methods: {
     adicionarPedido() {

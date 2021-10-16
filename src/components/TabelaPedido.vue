@@ -134,6 +134,10 @@ export default {
       this.itens = val
     }
   },
+  mounted() {
+    this.itens = this.itensPedido
+
+  },
   computed: {
     produtosFiltrados() {
         let item = []
