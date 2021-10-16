@@ -22,8 +22,8 @@
   </div>
 
   <div>
-    <button> Salvar</button>
-    <button> Adicionar Pedido</button>
+    <button @click="salvarPedido()" > Salvar</button>
+    <button @click="adicionarPedido()" > Adicionar Pedido</button>
   </div>
 
 
@@ -59,8 +59,22 @@ export default {
   },
   methods: {
     adicionarPedido() {
-      
+
     },
+    salvarPedido() {
+      if (this.pedido.numero == '' || this.pedido.data == '' || this.pedido.cliente == '' || this.pedido.itens.length == 0) {
+        confirm("Todos os campos devem ser preenchidos!")
+        return false        
+      } else {
+        confirm("Campos validados!")
+        return true
+      }
+    },
+    reset() {
+      this.pedido.numero = "",
+      this.pedido.data = "",
+      this.pedido.cliente = 0
+    }
   },
 };
 </script>

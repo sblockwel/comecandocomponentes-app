@@ -74,11 +74,12 @@ export default {
     },
     alterar(idx) {      
       if(this.alteracaoIdx == idx){
+        this.itens[idx] = this.item
         this.reset()
       }
       else {
         this.item = Object.assign({}, this.itens[idx]);
-      this.alteracaoIdx = idx;
+        this.alteracaoIdx = idx;
       }
     },    
     adicionarProduto() {
@@ -111,12 +112,6 @@ export default {
         )      
     }, 
     getLinhaTabela(idx) {
-      /*let divs = document.getElementsByClassName("produtoClass")
-      
-      for (const div in divs) {
-        console.log(div)
-      }*/
-
       return idx == this.alteracaoIdx
     },
     getAlteracaoIcon(idx) {
