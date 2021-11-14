@@ -1,12 +1,24 @@
 <template>
   <div>
-    <div class="botoes">
-        <button @click="adicionarProduto()">Adicionar produto</button>
-        
-        <div class="filtro">
+    <div class="produto">
+        <label for="produto"> Produto: </label>
+        <select v-model="item.produto" >
+          <option v-for="produto in produtos" :key="produto.id" :value="produto">
+            {{ produto.nome }}
+          </option>
+        </select>
+        <label for="item.quantidade"> Quantidade: </label>
+        <input type="number" v-model="item.quantidade">
+
+        <br/>
+        <button @click="adicionarProduto()">Adicionar produto</button> 
+        <br/>
+    </div>
+
+    <div class="filtro">
             <label>Filtro por produto</label><br/>
             <input type="text" v-model="procurar">
-        </div>
+            <br/>
     </div>
     <table class="tabela">
         <th @click="ordenar('produto')" class="ordenar">Produto <font-awesome-icon :icon="getTipoOrdenacao('produto')" /> </th>
@@ -16,10 +28,10 @@
         <th @click="ordenar('valorTotal')" class="ordenar">Valor total <font-awesome-icon :icon="getTipoOrdenacao('valorTotal')" /></th>
         <th>Opções</th>
 
-        <tr v-for="(i, idx) in produtosFiltrados" :key="i.produto" :class="{ alteracao: alteracaoIdx == idx }" >
-            <td id="produto" class="produtoClass" :contenteditable="getLinhaTabela(idx)">{{ i.produto }}</td>
+        <tr v-for="(i, idx) in itensPedido" :key="i.produto" :class="{ alteracao: alteracaoIdx == idx }" >
+            <td id="produto" class="produtoClass" :contenteditable="getLinhaTabela(idx)">{{ i.produto.nome }}</td>
             <td id="quantidade" :contenteditable="getLinhaTabela(idx)">{{ i.quantidade }}</td>
-            <td id="unidade" :contenteditable="getLinhaTabela(idx)">{{ i.valorUnidade }}</td>
+            <td id="unidade" :contenteditable="getLinhaTabela(idx)">{{ i.produto.preco }}</td>
             <td id="desconto" :contenteditable="getLinhaTabela(idx)">{{ i.valorDesconto }}</td>
             <td id="total"> {{ calcularTotal(i) }}</td>
             <td>
@@ -38,8 +50,9 @@
 
 <script>
 
-
+import axios from 'axios'
 export default {
+  
   name: "TabelaPedido",
   props: {
     itensPedido: Array
@@ -48,8 +61,8 @@ export default {
     return {
         itens: [],
         item: {
-            produto: "",
-            quantidade: "",
+            produto: null,
+            quantidade: 0,
             valorUnidade: "",
             valorDesconto: "",
             valorTotal: "",
@@ -62,6 +75,7 @@ export default {
         },
         totalPedido: 0.00,
         qtdeItem: 0,
+        produtos: [],
     }
   },
   methods: {
@@ -87,6 +101,15 @@ export default {
         this.itens.push(itemSalvar)     
         const indice = this.itens.length - 1;
         this.alteracaoIdx = indice
+
+        if(this.item.quantidade <= 0){
+          alert("campo quantidade não pode ser vazio ou 0!!!!!!!!!!")
+          return 
+        }
+        if (this.item.produto == null || this.item.produto.id <= 0)  {
+          alert("não tem produto selecionado!!")  
+          return
+        }
     },
     reset() {
       this.item = null
@@ -130,16 +153,19 @@ export default {
     }
   },
   mounted() {
-    this.itens = this.itensPedido
+    this.itens = this.itensPedido,
+    axios.get("http://localhost:8080/produto").then(response => {
+                    this.produtos = response.data
+        })
 
   },
   computed: {
-    produtosFiltrados() {
+    /*produtosFiltrados() {
         let item = []
         item = this.itens.filter(p => p = p.produto.toLowerCase().indexOf(this.procurar.toLowerCase()) > -1 )
         
         return item
-    },
+    },*/
     calcularTotalPedido() { 
       return this.itens.map(i => i.valorTotal).reduce((a,b) => a + b, 0)
     },   

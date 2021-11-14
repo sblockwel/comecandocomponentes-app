@@ -11,7 +11,11 @@
       </div>
       <div class="campo">
         <label for="cliente"> Cliente: </label>
-        <input type="select" id="cliente" required v-model="pedido.cliente" />
+        <select v-model="pedido.cliente" >
+          <option v-for="cliente in clientes" :key="cliente.id" :value="cliente">
+            {{ cliente.nome }}
+          </option>
+        </select>
       </div>      
     </form>
   </div>
@@ -31,7 +35,7 @@
 
 <script>
 import TabelaPedido from "./TabelaPedido.vue";
-
+import axios from 'axios'
 export default {
   name: "FormPedido",
   components: {
@@ -46,16 +50,18 @@ export default {
       pedido: {
         numero: "",
         data: "",
-        cliente: "",
         itens: [
             { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
             { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
-        ],
+        ],        
       },
+      clientes: []
     };
   },
   mounted() {
-    console.log('inicio')
+    axios.get("http://localhost:8080/cliente").then(response => {
+                    this.clientes = response.data
+        })
   },
   methods: {
     adicionarPedido() {
