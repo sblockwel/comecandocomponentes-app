@@ -63,7 +63,6 @@ export default {
         item: {
             produto: null,
             quantidade: 0,
-            valorUnidade: "",
             valorDesconto: "",
             valorTotal: "",
         },

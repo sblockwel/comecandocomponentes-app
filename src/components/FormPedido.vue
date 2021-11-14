@@ -50,10 +50,7 @@ export default {
       pedido: {
         numero: "",
         data: "",
-        itens: [
-            { produto: "teste 1", quantidade: 5, valorUnidade: 3.50, valorDesconto: 0.50, valorTotal: 15.0 },
-            { produto: "produto 2", quantidade: 2, valorUnidade: 1.50, valorDesconto: 0.10, valorTotal: 2.80 }
-        ],        
+        itens: [],        
       },
       clientes: []
     };
@@ -65,7 +62,19 @@ export default {
   },
   methods: {
     adicionarPedido() {
-
+      axios.post('http://localhost:8080/pedido', 
+              this.pedido)
+              .then((response) => {
+                  if (this.pedido.id == null) {
+                      this.mensagem = "Registro adicionado " + response.data
+                      this.pedido.id = response.data
+                  }
+                  else
+                      this.mensagem = "Registro alterado " + response.data
+              })
+              .catch(error => 
+                  alert(error)
+              )
     },
     salvarPedido() {
       if (this.pedido.numero == '' || this.pedido.data == '' || this.pedido.cliente == '' || this.pedido.itens.length == 0) {
